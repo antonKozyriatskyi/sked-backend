@@ -1,16 +1,27 @@
 package kozyriatskyi.anton.sked.beckend.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.request.*
+import io.ktor.application.*
+import io.ktor.html.*
+import io.ktor.routing.*
+import kotlinx.html.*
 
 fun Application.configureRouting() {
-
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            call.respondHtml(block = createWelcomePage())
+        }
+    }
+}
+
+private fun createWelcomePage(): HTML.() -> Unit = {
+    head {
+        title {
+            +"Sked Server"
+        }
+    }
+    body {
+        h1 {
+            +"Welcome to Sked Server!"
         }
     }
 }
