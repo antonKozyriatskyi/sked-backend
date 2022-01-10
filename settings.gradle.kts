@@ -9,4 +9,4 @@
  */
 
 rootProject.name = "sked-beckend"
-include("app")
+include("app", "sut-parser")
