@@ -3,12 +3,22 @@
  */
 package kozyriatskyi.anton.sked.beckend.app
 
+import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import kotlinx.serialization.json.Json
 import kozyriatskyi.anton.sked.beckend.plugins.configureRouting
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+            })
+        }
         configureRouting()
     }.start(wait = true)
 }
