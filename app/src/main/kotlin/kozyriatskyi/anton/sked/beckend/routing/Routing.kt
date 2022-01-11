@@ -1,4 +1,4 @@
-package kozyriatskyi.anton.sked.beckend.plugins
+package kozyriatskyi.anton.sked.beckend.routing
 
 import io.ktor.application.*
 import io.ktor.html.*
@@ -10,6 +10,8 @@ fun Application.configureRouting() {
         get("/") {
             call.respondHtml(block = createWelcomePage())
         }
+
+        configureStudentLoginRouting()
     }
 }
 

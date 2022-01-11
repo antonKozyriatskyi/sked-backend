@@ -2,7 +2,7 @@ package kozyriatskyi.anton.sked.beckend.app
 
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import kozyriatskyi.anton.sked.beckend.plugins.configureRouting
+import kozyriatskyi.anton.sked.beckend.routing.configureRouting
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

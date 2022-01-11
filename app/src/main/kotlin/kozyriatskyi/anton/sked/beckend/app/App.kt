@@ -9,7 +9,7 @@ import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
-import kozyriatskyi.anton.sked.beckend.plugins.configureRouting
+import kozyriatskyi.anton.sked.beckend.routing.configureRouting
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
