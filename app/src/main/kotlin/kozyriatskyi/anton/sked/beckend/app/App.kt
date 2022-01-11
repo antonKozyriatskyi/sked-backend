@@ -5,6 +5,8 @@ package kozyriatskyi.anton.sked.beckend.app
 
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -15,6 +17,7 @@ fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         configureSerialization()
         configureRouting()
+        configureErrorResponses()
     }.start(wait = true)
 }
 
@@ -24,5 +27,13 @@ private fun Application.configureSerialization() {
             prettyPrint = true
             isLenient = true
         })
+    }
+}
+
+private fun Application.configureErrorResponses() {
+    install(StatusPages) {
+        exception<Throwable> {
+            call.respond(HttpStatusCode.InternalServerError)
+        }
     }
 }
