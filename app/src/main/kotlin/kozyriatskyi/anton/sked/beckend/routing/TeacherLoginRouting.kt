@@ -12,30 +12,28 @@ import kozyriatskyi.anton.sutparser.TeacherInfoParser
 fun Route.configureTeacherLoginRouting() {
     val parser = TeacherInfoParser()
 
-    route("teacher") {
-        get("departments") {
-            kotlin.runCatching { parser.getDepartments().mapToItems() }
+    get("departments") {
+        kotlin.runCatching { parser.getDepartments().mapToItems() }
+            .onSuccess { call.respond(it) }
+            .onFailure {
+                val message = it.generateErrorMessage()
+                call.respondText(message)
+            }
+    }
+
+    get("teachers") {
+        val department = queryParams["department"]?.takeIfIsInt()
+
+        if (department != null) {
+            kotlin.runCatching { parser.getTeachers(department).mapToItems() }
                 .onSuccess { call.respond(it) }
                 .onFailure {
                     val message = it.generateErrorMessage()
                     call.respondText(message)
                 }
-        }
-
-        get("teachers") {
-            val department = queryParams["department"]?.takeIfIsInt()
-
-            if (department != null) {
-                kotlin.runCatching { parser.getTeachers(department).mapToItems() }
-                    .onSuccess { call.respond(it) }
-                    .onFailure {
-                        val message = it.generateErrorMessage()
-                        call.respondText(message)
-                    }
-            } else {
-                val message = queryParams.generateErrorMessage(fields = arrayOf("department"))
-                call.respondText(message)
-            }
+        } else {
+            val message = queryParams.generateErrorMessage(fields = arrayOf("department"))
+            call.respondText(message)
         }
     }
 }

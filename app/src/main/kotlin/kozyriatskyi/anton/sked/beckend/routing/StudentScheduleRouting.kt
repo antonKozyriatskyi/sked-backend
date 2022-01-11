@@ -38,15 +38,7 @@ fun Route.configureStudentScheduleRouting() {
             }
                 .onSuccess { call.respond(it) }
                 .onFailure {
-                    val message = queryParams.generateErrorMessage(
-                        fields = arrayOf(
-                            "faculty",
-                            "course",
-                            "course",
-                            "dateStart",
-                            "dateEnd"
-                        )
-                    )
+                    val message = it.generateErrorMessage()
                     call.respondText(message)
                 }
         } else {
@@ -54,7 +46,7 @@ fun Route.configureStudentScheduleRouting() {
                 fields = arrayOf(
                     "faculty",
                     "course",
-                    "course",
+                    "group",
                     "dateStart",
                     "dateEnd"
                 )
