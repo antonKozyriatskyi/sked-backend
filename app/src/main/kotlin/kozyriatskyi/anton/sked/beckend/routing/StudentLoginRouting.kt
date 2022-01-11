@@ -13,12 +13,12 @@ fun Route.configureStudentLoginRouting() {
     val parser = StudentInfoParser()
 
     route("student") {
-        get("/faculties") {
+        get("faculties") {
             val faculties = parser.getFaculties().mapToItems()
             call.respond(faculties)
         }
 
-        get("/courses") {
+        get("courses") {
             val faculty = queryParams["faculty"]?.takeIfIsInt()
 
             if (faculty != null) {
@@ -31,11 +31,12 @@ fun Route.configureStudentLoginRouting() {
                         call.respondText(message)
                     }
             } else {
-                call.respond("faculty id must be specified as a query parameter")
+                val message = queryParams.generateErrorMessage(fields = arrayOf("faculty"))
+                call.respondText(message)
             }
         }
 
-        get("/groups") {
+        get("groups") {
             val faculty = queryParams["faculty"]?.takeIfIsInt()
             val course = queryParams["course"]?.takeIfIsInt()
 
