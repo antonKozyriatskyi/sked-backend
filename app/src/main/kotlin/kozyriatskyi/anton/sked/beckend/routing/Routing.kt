@@ -12,7 +12,7 @@ fun Application.configureRouting() {
         }
 
         configureStudentRouting()
-        configureTeacherLoginRouting()
+        configureTeacherRouting()
     }
 }
 
