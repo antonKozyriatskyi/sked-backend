@@ -11,7 +11,7 @@ fun Application.configureRouting() {
             call.respondHtml(block = createWelcomePage())
         }
 
-        configureStudentLoginRouting()
+        configureStudentRouting()
         configureTeacherLoginRouting()
     }
 }
