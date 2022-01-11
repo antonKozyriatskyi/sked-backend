@@ -13,12 +13,16 @@ import kozyriatskyi.anton.sked.beckend.routing.configureRouting
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
-        }
+        configureSerialization()
         configureRouting()
     }.start(wait = true)
+}
+
+private fun Application.configureSerialization() {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
 }
