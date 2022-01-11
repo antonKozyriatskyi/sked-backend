@@ -4,6 +4,7 @@ import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kozyriatskyi.anton.sked.beckend.generateErrorMessage
+import kozyriatskyi.anton.sked.beckend.models.ScheduleResponse
 import kozyriatskyi.anton.sked.beckend.models.mapToLessons
 import kozyriatskyi.anton.sked.beckend.queryParams
 import kozyriatskyi.anton.sked.beckend.takeIfIsInt
@@ -28,13 +29,15 @@ fun Route.configureStudentScheduleRouting() {
             dateEnd != null
         ) {
             kotlin.runCatching {
-                parser.getSchedule(
+                val lessons = parser.getSchedule(
                     facultyId = faculty,
                     courseId = course,
                     groupId = group,
                     dateStart = dateStart,
                     dateEnd = dateEnd
                 ).mapToLessons()
+
+                ScheduleResponse(lessons)
             }
                 .onSuccess { call.respond(it) }
                 .onFailure {
