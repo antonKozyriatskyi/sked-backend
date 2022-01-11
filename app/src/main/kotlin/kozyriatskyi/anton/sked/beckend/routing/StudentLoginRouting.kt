@@ -14,8 +14,12 @@ fun Route.configureStudentLoginRouting() {
 
     route("student") {
         get("faculties") {
-            val faculties = parser.getFaculties().mapToItems()
-            call.respond(faculties)
+            kotlin.runCatching { parser.getFaculties().mapToItems() }
+                .onSuccess { call.respond(it) }
+                .onFailure {
+                    val message = it.generateErrorMessage()
+                    call.respondText(message)
+                }
         }
 
         get("courses") {
@@ -41,12 +45,18 @@ fun Route.configureStudentLoginRouting() {
             val course = queryParams["course"]?.takeIfIsInt()
 
             if (faculty != null && course != null) {
-                val groups = parser.getGroups(faculty, course).mapToItems()
-                call.respond(groups)
+                kotlin.runCatching { parser.getGroups(faculty, course).mapToItems() }
+                    .onSuccess { call.respond(it) }
+                    .onFailure {
+                        val message = it.generateErrorMessage()
+                        call.respondText(message)
+                    }
             } else {
                 val message = queryParams.generateErrorMessage(fields = arrayOf("faculty", "course"))
                 call.respondText(message)
             }
         }
+
+        configureStudentScheduleRouting()
     }
 }

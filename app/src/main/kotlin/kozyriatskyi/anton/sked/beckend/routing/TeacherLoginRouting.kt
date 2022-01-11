@@ -14,17 +14,19 @@ fun Route.configureTeacherLoginRouting() {
 
     route("teacher") {
         get("departments") {
-            val departments = parser.getDepartments().mapToItems()
-            call.respond(departments)
+            kotlin.runCatching { parser.getDepartments().mapToItems() }
+                .onSuccess { call.respond(it) }
+                .onFailure {
+                    val message = it.generateErrorMessage()
+                    call.respondText(message)
+                }
         }
 
         get("teachers") {
             val department = queryParams["department"]?.takeIfIsInt()
 
             if (department != null) {
-                kotlin.runCatching {
-                    parser.getTeachers(department).mapToItems()
-                }
+                kotlin.runCatching { parser.getTeachers(department).mapToItems() }
                     .onSuccess { call.respond(it) }
                     .onFailure {
                         val message = it.generateErrorMessage()
