@@ -17,9 +17,14 @@ fun main(args: Array<String>) = EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.mainModule() {
+    configureLogging()
     configureSerialization()
     configureRouting()
     configureErrorResponses()
+}
+
+private fun Application.configureLogging() {
+    install(CallLogging)
 }
 
 private fun Application.configureSerialization() {
