@@ -13,12 +13,12 @@ import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
 import kozyriatskyi.anton.sked.beckend.routing.configureRouting
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
-        configureSerialization()
-        configureRouting()
-        configureErrorResponses()
-    }.start(wait = true)
+fun main(args: Array<String>) = EngineMain.main(args)
+
+fun Application.mainModule() {
+    configureSerialization()
+    configureRouting()
+    configureErrorResponses()
 }
 
 private fun Application.configureSerialization() {
