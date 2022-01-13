@@ -15,6 +15,7 @@ import kozyriatskyi.anton.sked.beckend.routing.configureRouting
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
+@Suppress("unused")
 fun Application.mainModule() {
     configureSerialization()
     configureRouting()
