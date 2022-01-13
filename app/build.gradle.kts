@@ -14,6 +14,11 @@ version = "0.0.1"
 plugins {
     id("application-plugin")
     kotlin("plugin.serialization") version "1.6.10"
+    id("application")
+}
+
+application {
+    mainClass.set("kozyriatskyi.anton.sked.beckend.app.AppKt")
 }
 
 repositories {
