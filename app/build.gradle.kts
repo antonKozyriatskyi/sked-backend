@@ -39,8 +39,3 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
-
-application {
-    // Define the main class for the application.
-    mainClass.set("kozyriatskyi.anton.sked.beckend.app.AppKt")
-}
