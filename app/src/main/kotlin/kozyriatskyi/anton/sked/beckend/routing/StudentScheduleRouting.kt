@@ -18,23 +18,23 @@ fun Route.configureStudentScheduleRouting() {
         val faculty = queryParams["faculty"]?.takeIfIsInt()
         val course = queryParams["course"]?.takeIfIsInt()
         val group = queryParams["group"]?.takeIfIsInt()
-        val dateStart = queryParams["dateStart"]?.takeIfIsLocalDate()
-        val dateEnd = queryParams["dateEnd"]?.takeIfIsLocalDate()
+        val dateFrom = queryParams["dateFrom"]?.takeIfIsLocalDate()
+        val dateTo = queryParams["dateTo"]?.takeIfIsLocalDate()
 
         if (
             faculty != null &&
             course != null &&
             group != null &&
-            dateStart != null &&
-            dateEnd != null
+            dateFrom != null &&
+            dateTo != null
         ) {
             kotlin.runCatching {
                 val lessons = parser.getSchedule(
                     facultyId = faculty,
                     courseId = course,
                     groupId = group,
-                    dateStart = dateStart,
-                    dateEnd = dateEnd
+                    dateStart = dateFrom,
+                    dateEnd = dateTo
                 ).mapToLessons()
 
                 ScheduleResponse(lessons)
@@ -50,8 +50,8 @@ fun Route.configureStudentScheduleRouting() {
                     "faculty",
                     "course",
                     "group",
-                    "dateStart",
-                    "dateEnd"
+                    "dateFrom",
+                    "dateTo"
                 )
             )
             call.respondText(message)
