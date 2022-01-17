@@ -2,15 +2,26 @@
 
 set -e
 
-echo "Building the app"
+echo "-- Building the app"
+echo ""
+
 ./gradlew :app:installDist
 
-echo "Creating docker image and pushing it to Heroku"
+echo ""
+echo "-- Creating docker image and pushing it to Heroku"
+echo ""
+
+cd app
 heroku container:push web --app app-sked
 
-echo "Deploying image"
+echo ""
+echo "-- Deploying image"
+echo ""
 heroku container:release web --app app-sked
 
-echo "Deploy finished"
+echo ""
+echo "-- Deploy finished"
+
+cd ..
 
 $SHELL
