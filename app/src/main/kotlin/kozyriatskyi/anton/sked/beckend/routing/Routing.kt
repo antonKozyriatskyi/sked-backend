@@ -13,6 +13,7 @@ fun Application.configureRouting() {
 
         configureStudentRouting()
         configureTeacherRouting()
+        configureAudiencesRouting()
     }
 }
 
