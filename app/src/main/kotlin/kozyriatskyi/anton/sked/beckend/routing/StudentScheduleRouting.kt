@@ -3,6 +3,8 @@ package kozyriatskyi.anton.sked.beckend.routing
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kozyriatskyi.anton.sked.beckend.generateErrorMessage
 import kozyriatskyi.anton.sked.beckend.models.ScheduleResponse
 import kozyriatskyi.anton.sked.beckend.models.mapToLessons
@@ -29,13 +31,15 @@ fun Route.configureStudentScheduleRouting() {
             dateTo != null
         ) {
             kotlin.runCatching {
-                val lessons = parser.getSchedule(
-                    facultyId = faculty,
-                    courseId = course,
-                    groupId = group,
-                    dateStart = dateFrom,
-                    dateEnd = dateTo
-                ).mapToLessons()
+                val lessons = withContext(Dispatchers.IO) {
+                    parser.getSchedule(
+                        facultyId = faculty,
+                        courseId = course,
+                        groupId = group,
+                        dateStart = dateFrom,
+                        dateEnd = dateTo
+                    ).mapToLessons()
+                }
 
                 ScheduleResponse(lessons)
             }

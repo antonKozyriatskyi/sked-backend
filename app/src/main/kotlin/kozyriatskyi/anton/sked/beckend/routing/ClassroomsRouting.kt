@@ -50,7 +50,9 @@ fun Route.configureAudiencesRouting() {
                 lessonEnd != null
             ) {
                 kotlin.runCatching {
-                    parser.getAudiences(faculty, lessonStart, lessonEnd).mapToAudiences()
+                    withContext(Dispatchers.IO) {
+                        parser.getAudiences(faculty, lessonStart, lessonEnd).mapToAudiences()
+                    }
                 }
                     .onSuccess { call.respond(it) }
                     .onFailure {

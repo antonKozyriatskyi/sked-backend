@@ -3,6 +3,8 @@ package kozyriatskyi.anton.sked.beckend.routing
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kozyriatskyi.anton.sked.beckend.generateErrorMessage
 import kozyriatskyi.anton.sked.beckend.models.mapToItems
 import kozyriatskyi.anton.sked.beckend.queryParams
@@ -13,7 +15,11 @@ fun Route.configureTeacherLoginRouting() {
     val parser = TeacherInfoParser()
 
     get("departments") {
-        kotlin.runCatching { parser.getDepartments().mapToItems() }
+        kotlin.runCatching {
+            withContext(Dispatchers.IO) {
+                parser.getDepartments().mapToItems()
+            }
+        }
             .onSuccess { call.respond(it) }
             .onFailure {
                 val message = it.generateErrorMessage()
@@ -25,7 +31,11 @@ fun Route.configureTeacherLoginRouting() {
         val department = queryParams["department"]?.takeIfIsInt()
 
         if (department != null) {
-            kotlin.runCatching { parser.getTeachers(department).mapToItems() }
+            kotlin.runCatching {
+                withContext(Dispatchers.IO) {
+                    parser.getTeachers(department).mapToItems()
+                }
+            }
                 .onSuccess { call.respond(it) }
                 .onFailure {
                     val message = it.generateErrorMessage()

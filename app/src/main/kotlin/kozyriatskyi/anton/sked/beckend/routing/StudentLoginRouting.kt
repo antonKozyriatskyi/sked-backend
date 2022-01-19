@@ -3,6 +3,8 @@ package kozyriatskyi.anton.sked.beckend.routing
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kozyriatskyi.anton.sked.beckend.generateErrorMessage
 import kozyriatskyi.anton.sked.beckend.models.mapToItems
 import kozyriatskyi.anton.sked.beckend.queryParams
@@ -13,7 +15,11 @@ fun Route.configureStudentLoginRouting() {
     val parser = StudentInfoParser()
 
     get("faculties") {
-        kotlin.runCatching { parser.getFaculties().mapToItems() }
+        kotlin.runCatching {
+            withContext(Dispatchers.IO) {
+                parser.getFaculties().mapToItems()
+            }
+        }
             .onSuccess { call.respond(it) }
             .onFailure {
                 val message = it.generateErrorMessage()
@@ -26,7 +32,9 @@ fun Route.configureStudentLoginRouting() {
 
         if (faculty != null) {
             kotlin.runCatching {
-                parser.getCourses(faculty).mapToItems()
+                withContext(Dispatchers.IO) {
+                    parser.getCourses(faculty).mapToItems()
+                }
             }
                 .onSuccess { call.respond(it) }
                 .onFailure {
@@ -44,7 +52,11 @@ fun Route.configureStudentLoginRouting() {
         val course = queryParams["course"]?.takeIfIsInt()
 
         if (faculty != null && course != null) {
-            kotlin.runCatching { parser.getGroups(faculty, course).mapToItems() }
+            kotlin.runCatching {
+                withContext(Dispatchers.IO) {
+                    parser.getGroups(faculty, course).mapToItems()
+                }
+            }
                 .onSuccess { call.respond(it) }
                 .onFailure {
                     val message = it.generateErrorMessage()
