@@ -17,7 +17,7 @@ import kozyriatskyi.anton.sutparser.AudiencesParser
 fun Route.configureAudiencesRouting() {
     val parser = AudiencesParser()
 
-    route("audiences") {
+    route("classrooms") {
         get("times") {
             kotlin.runCatching {
                 withContext(Dispatchers.IO) {
