@@ -11,9 +11,11 @@ fun Application.configureRouting() {
             call.respondHtml(block = createWelcomePage())
         }
 
-        configureStudentRouting()
-        configureTeacherRouting()
-        configureAudiencesRouting()
+        route("v1") {
+            configureStudentRouting()
+            configureTeacherRouting()
+            configureAudiencesRouting()
+        }
     }
 }
 
